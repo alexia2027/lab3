@@ -86,12 +86,43 @@ end top_basys3;
 architecture top_basys3_arch of top_basys3 is 
   
 	-- declare components
-
+component thunderbird_fsm is 
+    port (
+        i_clk, i_reset  : in    std_logic;
+        i_left, i_right : in    std_logic;
+        o_lights_L      : out   std_logic_vector(15 downto 13);
+        o_lights_R      : out   std_logic_vector(2 downto 0)
+     );
+  end component;   
   
+  component clock_divider is
+	generic ( constant k_DIV : natural := 2	);
+	port ( 	i_clk    : in std_logic;		   -- basys3 clk
+			i_reset  : in std_logic;		   -- asynchronous
+			o_clk    : out std_logic		   -- divided (slow) clock
+	);
+end component clock_divider;
+
+
+signal w_clk : std_logic;
+
 begin
 	-- PORT MAPS ----------------------------------------
+thunderbird_fsm_F : thunderbird_fsm
+port map(
+        i_clk => w_clk, 
+        i_reset => btnL, 
+        i_left => sw(15),
+        i_right => sw(0),
+        o_lights_L(15) =>   led(15),
+        o_lights_L(14) =>   led(14),
+        o_lights_L(13) =>   led(13),
+  
+        o_lights_R(2) => led(2),
+        o_lights_R(1) => led(1),
+        o_lights_R(0) => led(0)
 
-	
+	);
 	
 	-- CONCURRENT STATEMENTS ----------------------------
 	
@@ -101,6 +132,16 @@ begin
 	-- Ignore the warnings associated with these signals
 	-- Alternatively, you can create a different board implementation, 
 	--   or make additional adjustments to the constraints file
-	led(12 downto 3) <= (others => '0');
+	--led(12 downto 3) <= (others => '0');
 	
+	
+--Complete the clock_divider portmap below based on the design provided	
+	clkdiv_inst : clock_divider 		--instantiation of clock_divider to take 
+        generic map ( k_DIV => 50000000 ) -- 1 Hz clock from 100 MHz
+        port map (						  
+            i_clk   => clk,
+            i_reset => btnR,
+            o_clk   => w_clk
+        );  
+        
 end top_basys3_arch;
