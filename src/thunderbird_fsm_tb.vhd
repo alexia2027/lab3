@@ -102,45 +102,39 @@ begin
 	sim_proc: process
 	begin
 	   w_reset <= '1';
-	   wait for k_clk_period*1;
-	       assert w_lights_L = "000" report "bad reset" severity failure;
-	       assert w_lights_R = "000" report "bad reset" severity failure;
-	   
+		wait for k_clk_period*1;
+		  assert w_lights_L = "000" report "bad reset" severity failure;
+		  assert w_lights_R = "000" report "bad reset" severity failure;
 	   w_reset <= '0';
 	   wait for k_clk_period*1;
 	   w_left <= '1';
-	   wait for k_clk_period*1;
-	       assert w_lights_L = "001" report "bad LA" severity failure;
-	   wait for k_clk_period*1;
-	       assert w_lights_L = "011" report "bad LB" severity failure;
-	   wait for k_clk_period*1;
-	       assert w_lights_L = "111" report "bad LC" severity failure;
-	   
+	    wait for k_clk_period*1;
+	      assert w_lights_L = "001" report "bad LA" severity failure;
+	    wait for k_clk_period*1;
+	      assert w_lights_L = "011" report "bad LB" severity failure;
+	    wait for k_clk_period*1;
+	      assert w_lights_L = "111" report "bad LC" severity failure;
 	   w_left <= '0';
 	   wait for k_clk_period*1;
 	   w_right <= '1';
-	   wait for k_clk_period*1;
-	       assert w_lights_R = "001" report "bad RA" severity failure;
-	   wait for k_clk_period*1;
-	       assert w_lights_R = "011" report "bad RB" severity failure;
-	   wait for k_clk_period*1;
-	       assert w_lights_R = "111" report "bad RC" severity failure;
-	   
+	    wait for k_clk_period*1;
+	      assert w_lights_R = "001" report "bad RA" severity failure;
+	    wait for k_clk_period*1;
+	      assert w_lights_R = "011" report "bad RB" severity failure;
+	    wait for k_clk_period*1;
+	      assert w_lights_R = "111" report "bad RC" severity failure;
 	   w_right <= '0';
 	   wait for k_clk_period*1;
-	   
 	   w_right <= '1';
 	   w_left <= '1';
-	   wait for k_clk_period*1;
-	       assert w_lights_L = "111" report "hazards are on" severity failure;
-	       assert w_lights_R = "111" report "hazards are on" severity failure;
-	   --w_right <= '0';
-	   --w_left <= '0';
-	   wait for k_clk_period*1;
-	       assert w_lights_L = "000" report "hazards are off" severity failure;
-	       assert w_lights_R = "000" report "hazards are off" severity failure; 
-	   
-	   wait for k_clk_period*1;
+	    wait for k_clk_period*1;
+	      assert w_lights_R = "111" report "bad hazard on" severity failure;
+	      assert w_lights_L = "111" report "bad hazard on" severity failure;
+	    wait for k_clk_period*1;
+	      assert w_lights_R = "000" report "bad hazard off" severity failure;
+	      assert w_lights_L = "000" report "bad hazard off" severity failure;
+	   w_left <= '0';
+	   w_right <= '0';
 	   end process;
 	-----------------------------------------------------	
 	
