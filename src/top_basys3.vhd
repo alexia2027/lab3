@@ -1,4 +1,4 @@
---+----------------------------------------------------------------------------
+
 --| 
 --| COPYRIGHT 2018 United States Air Force Academy All rights reserved.
 --| 
@@ -128,7 +128,7 @@ port map(
 	
 	-- ground unused LEDs
 	-- leave unused switches UNCONNECTED
-	
+	   led(12 downto 3) <= (others => '0');
 	-- Ignore the warnings associated with these signals
 	-- Alternatively, you can create a different board implementation, 
 	--   or make additional adjustments to the constraints file
@@ -137,7 +137,7 @@ port map(
 	
 --Complete the clock_divider portmap below based on the design provided	
 	clkdiv_inst : clock_divider 		--instantiation of clock_divider to take 
-        generic map ( k_DIV => 50000000 ) -- 1 Hz clock from 100 MHz
+        generic map ( k_DIV => 25000000 ) -- 1 Hz clock from 100 MHz
         port map (						  
             i_clk   => clk,
             i_reset => btnR,
